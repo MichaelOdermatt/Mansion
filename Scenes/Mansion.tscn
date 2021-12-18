@@ -57,7 +57,7 @@ script = ExtResource( 7 )
 pause_mode = 2
 points = PoolVector2Array( 500, 480 )
 width = 2.0
-default_color = Color( 1, 0.262745, 0.262745, 1 )
+default_color = Color( 1, 0, 0, 1 )
 script = ExtResource( 8 )
 
 [node name="ShootTimer" type="Timer" parent="Player"]
@@ -120,9 +120,9 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Enemy"]
 shape = SubResource( 5 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="UpdatePathTimer" type="Timer" parent="Enemy"]
 wait_time = 0.5
 autostart = true
 
 [connection signal="timeout" from="Player/ShootTimer" to="Player/ShootTimer" method="_on_ShootTimer_timeout"]
-[connection signal="timeout" from="Timer" to="Enemy" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Enemy/UpdatePathTimer" to="Enemy" method="_on_UpdatePathTimer_timeout"]
