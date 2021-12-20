@@ -5,6 +5,7 @@ var path_node = 0
 var wander_pos_index : int = 0
 var wander_pos_path = null
 var reached_destination_threshold = 1.2
+var has_fired
 export var player_detectin_fov = 15
 export var chance_enemy_will_attack_when_spotted : float = 25 #percent
 export var speed = 7
@@ -42,6 +43,12 @@ func _physics_process(delta):
 			wait_if_destination_reached()
 		WAIT:
 			wander_or_attack_if_spotted()
+
+func _input(event):
+	# if player shoots and enemy is not wandering or attacking
+	if Input.is_action_just_pressed("shoot"):
+		if state == WAIT:
+			has_fired = true
 
 func move_along_path():
 	if path_node < path.size():
@@ -106,8 +113,15 @@ func is_enemy_spotted():
 	else:
 		return false
 
+func is_player_firing():
+	if has_fired:
+		has_fired = false
+		return true
+	else:
+		return false
+
 func wander_or_attack_if_spotted():
-	if is_enemy_spotted(): # or if player is reloading
+	if is_enemy_spotted() || is_player_firing(): 
 		rng.randomize()
 		var chance = rng.randf() + 0.01
 		if chance <= chance_enemy_will_attack_when_spotted/100:
