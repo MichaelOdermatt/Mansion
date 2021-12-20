@@ -34,7 +34,6 @@ func _ready():
 	wait()
 
 func _physics_process(delta):
-	
 	match state:
 		ATTACK:
 			move_along_path()
@@ -42,9 +41,7 @@ func _physics_process(delta):
 			move_along_path()
 			wait_if_destination_reached()
 		WAIT:
-			wander_or_attack_if_player_sees_enemy()
-			pass
-			
+			wander_or_attack_if_spotted()
 
 func move_along_path():
 	if path_node < path.size():
@@ -100,18 +97,17 @@ func wait_if_destination_reached():
 	if global_transform.origin.distance_to(wander_pos_path) <= reached_destination_threshold:
 		state = WAIT
 
-func is_player_looking_at_enemy():
+func is_enemy_spotted():
 	var player_dir = player.global_transform.basis.z * -1
 	var enemy_to_player_vector = (get_translation() - player.get_translation()).normalized()
-	#var enemy_to_player_distance = get_translation().distance_to(player.get_translation())
 
 	if acos(enemy_to_player_vector.dot(player_dir)) <= deg2rad(player_detectin_fov):
 		return true
 	else:
 		return false
 
-func wander_or_attack_if_player_sees_enemy():
-	if is_player_looking_at_enemy():
+func wander_or_attack_if_spotted():
+	if is_enemy_spotted():
 		rng.randomize()
 		var chance = rng.randf() + 0.01
 		if chance <= chance_enemy_will_attack_when_spotted/100:
