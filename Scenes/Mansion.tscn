@@ -17,6 +17,7 @@
 [sub_resource type="NavigationMesh" id=3]
 vertices = PoolVector3Array( -25.4, 2.1, -7.8, -25.4, 2.1, -0.599998, -19.4, 2.1, -0.599998, -19.4, 2.1, -29.4, -25.4, 2.1, -29.4, -25.4, 2.1, -22.2, -6.8, 2.1, -0.599998, -0.499998, 2.1, -0.599998, -0.499998, 2.1, -7.8, -0.499998, 2.1, -22.2, -0.499998, 2.1, -29.4, -6.8, 2.1, -29.4, -25.4, 2.1, -7.8, -19.4, 2.1, -0.599998, -13.1, 2.1, -0.599998, -13.1, 2.1, -29.4, -19.4, 2.1, -29.4, -25.4, 2.1, -22.2, -25.4, 2.1, -15, -13.1, 2.1, -0.599998, -6.8, 2.1, -0.599998, -0.499998, 2.1, -7.8, -0.499998, 2.1, -22.2, -6.8, 2.1, -29.4, -13.1, 2.1, -29.4, -0.499998, 2.1, -15, -25.4, 2.1, -15, -25.4, 2.1, -7.8, -13.1, 2.1, -0.599998, -0.499998, 2.1, -7.8, -0.499998, 2.1, -15, -13.1, 2.1, -29.4 )
 polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 5, 4, 3 ), PoolIntArray( 8, 7, 6 ), PoolIntArray( 11, 10, 9 ), PoolIntArray( 14, 13, 12 ), PoolIntArray( 16, 15, 17 ), PoolIntArray( 17, 15, 18 ), PoolIntArray( 19, 21, 20 ), PoolIntArray( 23, 22, 24 ), PoolIntArray( 24, 22, 25 ), PoolIntArray( 27, 26, 28 ), PoolIntArray( 28, 26, 29 ), PoolIntArray( 29, 26, 30 ), PoolIntArray( 30, 26, 31 ) ]
+cell/size = 1.0
 cell/height = 0.75
 
 [sub_resource type="CubeMesh" id=4]
@@ -120,9 +121,20 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Enemy"]
 shape = SubResource( 5 )
 
-[node name="UpdatePathTimer" type="Timer" parent="Enemy"]
+[node name="UpdatePathToPlayerTimer" type="Timer" parent="Enemy"]
 wait_time = 0.5
-autostart = true
+
+[node name="WanderPos1" type="Position3D" parent="Enemy"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -2 )
+
+[node name="WanderPos2" type="Position3D" parent="Enemy"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 20 )
+
+[node name="WanderPos3" type="Position3D" parent="Enemy"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 20 )
+
+[node name="WanderPos4" type="Position3D" parent="Enemy"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3 )
 
 [connection signal="timeout" from="Player/ShootTimer" to="Player/ShootTimer" method="_on_ShootTimer_timeout"]
-[connection signal="timeout" from="Enemy/UpdatePathTimer" to="Enemy" method="_on_UpdatePathTimer_timeout"]
+[connection signal="timeout" from="Enemy/UpdatePathToPlayerTimer" to="Enemy" method="_on_UpdatePathToPlayerTimer_timeout"]
