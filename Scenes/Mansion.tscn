@@ -121,7 +121,7 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Enemy"]
 shape = SubResource( 5 )
 
-[node name="UpdatePathToPlayerTimer" type="Timer" parent="Enemy"]
+[node name="PathToPlayerTimer" type="Timer" parent="Enemy"]
 wait_time = 0.5
 
 [node name="WanderPos1" type="Position3D" parent="Enemy"]
@@ -137,4 +137,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 20 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3 )
 
 [connection signal="timeout" from="Player/ShootTimer" to="Player/ShootTimer" method="_on_ShootTimer_timeout"]
-[connection signal="timeout" from="Enemy/UpdatePathToPlayerTimer" to="Enemy" method="_on_UpdatePathToPlayerTimer_timeout"]
+[connection signal="timeout" from="Enemy/PathToPlayerTimer" to="Enemy" method="_on_PathToPlayerTimer_timeout"]
