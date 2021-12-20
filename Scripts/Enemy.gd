@@ -107,7 +107,7 @@ func is_enemy_spotted():
 		return false
 
 func wander_or_attack_if_spotted():
-	if is_enemy_spotted():
+	if is_enemy_spotted(): # or if player is reloading
 		rng.randomize()
 		var chance = rng.randf() + 0.01
 		if chance <= chance_enemy_will_attack_when_spotted/100:
