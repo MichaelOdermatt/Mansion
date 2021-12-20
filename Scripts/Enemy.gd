@@ -5,8 +5,10 @@ var path_node = 0
 var wander_pos_index : int = 0
 var wander_pos_path = null
 var reached_destination_threshold = 1.2
+export var player_detectin_fov = 15
+export var chance_enemy_will_attack_when_spotted : float = 25 #percent
+export var speed = 7
 
-var speed = 7
 enum {
 	WAIT,
 	WANDER,
@@ -29,9 +31,10 @@ onready var rng = RandomNumberGenerator.new()
 # stop the UpdatePathToPlayerTimer and randomy set the waypoint to wander
 
 func _ready():
-	wander()
+	wait()
 
 func _physics_process(delta):
+	
 	match state:
 		ATTACK:
 			move_along_path()
@@ -39,6 +42,7 @@ func _physics_process(delta):
 			move_along_path()
 			wait_if_destination_reached()
 		WAIT:
+			wander_or_attack_if_player_sees_enemy()
 			pass
 			
 
@@ -95,3 +99,23 @@ func stop_path_to_player_timer():
 func wait_if_destination_reached():
 	if global_transform.origin.distance_to(wander_pos_path) <= reached_destination_threshold:
 		state = WAIT
+
+func is_player_looking_at_enemy():
+	var player_dir = player.global_transform.basis.z * -1
+	var enemy_to_player_vector = (get_translation() - player.get_translation()).normalized()
+	#var enemy_to_player_distance = get_translation().distance_to(player.get_translation())
+
+	if acos(enemy_to_player_vector.dot(player_dir)) <= deg2rad(player_detectin_fov):
+		return true
+	else:
+		return false
+
+func wander_or_attack_if_player_sees_enemy():
+	if is_player_looking_at_enemy():
+		rng.randomize()
+		var chance = rng.randf() + 0.01
+		if chance <= chance_enemy_will_attack_when_spotted/100:
+			attack()
+		else:
+			wander()
+
