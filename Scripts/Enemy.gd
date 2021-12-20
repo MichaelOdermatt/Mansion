@@ -6,7 +6,8 @@ var wander_pos_index : int = 0
 var wander_pos_path = null
 var reached_destination_threshold = 1.2
 var has_fired
-export var player_detectin_fov = 15
+export var player_detection_fov = 15
+export var player_detection_distance = 8
 export var chance_enemy_will_attack_when_spotted : float = 25 #percent
 export var speed = 7
 
@@ -108,7 +109,7 @@ func is_enemy_spotted():
 	var player_dir = player.global_transform.basis.z * -1
 	var enemy_to_player_vector = (get_translation() - player.get_translation()).normalized()
 
-	if acos(enemy_to_player_vector.dot(player_dir)) <= deg2rad(player_detectin_fov):
+	if acos(enemy_to_player_vector.dot(player_dir)) <= deg2rad(player_detection_fov):
 		return true
 	else:
 		return false
@@ -119,9 +120,17 @@ func is_player_firing():
 		return true
 	else:
 		return false
+		
+func is_player_near():
+	var player_location = player.global_transform.origin
+	var enemy_location = global_transform.origin
+	if enemy_location.distance_to(player_location) <= player_detection_distance:
+		return true
+	else:
+		return false
 
 func wander_or_attack_if_spotted():
-	if is_enemy_spotted() || is_player_firing(): 
+	if is_enemy_spotted() || is_player_firing() || is_player_near(): 
 		rng.randomize()
 		var chance = rng.randf() + 0.01
 		if chance <= chance_enemy_will_attack_when_spotted/100:
