@@ -3,7 +3,7 @@ extends Line2D
 onready var Cam = $".."
 onready var ray_cast = $"../PlayerRayCast"
 onready var shoot_timer = $"../../ShootTimer"
-var screen_center = Vector2(320,280)
+var screen_center = Vector2(320,240)
 
 # Called when the node enters the scene tree for the first time.
 func _process(delta):
