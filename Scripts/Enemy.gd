@@ -14,13 +14,15 @@ export var speed = 7
 enum {
 	WAIT,
 	WANDER,
-	ATTACK
+	ATTACK,
+	DEAD
 }
 
 onready var nav = $"../Map/Navigation"
 onready var player = $"../Player"
 onready var path_to_player_timer = $"PathToPlayerTimer"
 onready var animation_tree = $"Enemy/AnimationTree"
+onready var player_raycast = $"../Player/Camera/PlayerRayCast"
 onready var state = null
 onready var wander_pos = [
 	$"WanderPos1".global_transform.origin,
@@ -48,12 +50,17 @@ func _physics_process(delta):
 		WAIT:
 			set_anim_idle()
 			wander_or_attack_if_spotted()
+		DEAD:
+			set_anim_idle()
 
 func _input(event):
-	# if player shoots and enemy is not wandering or attacking
+	# if player shoots and enemy waiting, wander or attack
 	if Input.is_action_just_pressed("shoot"):
 		if state == WAIT:
-			has_fired = true
+			wander_or_attack()
+		if player_raycast.collision_object == self:
+			player_raycast.collision_object = null
+			dead()
 
 func move_along_path():
 	if path_node < path.size():
@@ -101,6 +108,10 @@ func wait():
 		stop_path_to_player_timer()
 		state = WAIT
 
+func dead():
+	stop_path_to_player_timer()
+	state = DEAD
+
 func stop_path_to_player_timer():
 	if !path_to_player_timer.is_stopped():
 		path_to_player_timer.stop()
@@ -118,13 +129,6 @@ func is_enemy_spotted():
 		return true
 	else:
 		return false
-
-func is_player_firing():
-	if has_fired:
-		has_fired = false
-		return true
-	else:
-		return false
 		
 func is_player_near():
 	var player_location = player.global_transform.origin
@@ -135,13 +139,16 @@ func is_player_near():
 		return false
 
 func wander_or_attack_if_spotted():
-	if is_enemy_spotted() || is_player_firing() || is_player_near(): 
-		rng.randomize()
-		var chance = rng.randf() + 0.01
-		if chance <= chance_enemy_will_attack_when_spotted/100:
-			attack()
-		else:
-			wander()
+	if is_enemy_spotted() || is_player_near(): 
+		wander_or_attack()
+			
+func wander_or_attack():
+	rng.randomize()
+	var chance = rng.randf() + 0.01
+	if chance <= chance_enemy_will_attack_when_spotted/100:
+		attack()
+	else:
+		wander()
 
 func set_anim_run():
 	animation_tree.set("parameters/Blend2/blend_amount", 1)
