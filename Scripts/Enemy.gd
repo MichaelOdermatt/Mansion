@@ -20,6 +20,7 @@ enum {
 onready var nav = $"../Map/Navigation"
 onready var player = $"../Player"
 onready var path_to_player_timer = $"PathToPlayerTimer"
+onready var animation_tree = $"Enemy/AnimationTree"
 onready var state = null
 onready var wander_pos = [
 	$"WanderPos1".global_transform.origin,
@@ -38,11 +39,14 @@ func _ready():
 func _physics_process(delta):
 	match state:
 		ATTACK:
+			set_anim_run()
 			move_along_path()
 		WANDER:
+			set_anim_run()
 			move_along_path()
 			wait_if_destination_reached()
 		WAIT:
+			set_anim_idle()
 			wander_or_attack_if_spotted()
 
 func _input(event):
@@ -73,6 +77,7 @@ func set_random_waypoint():
 	wander_pos_path = wander_pos[wander_pos_index]
 
 func move_to(target_pos):
+	look_at(target_pos, Vector3.UP)
 	path = nav.get_simple_path(global_transform.origin, target_pos)
 	path_node = 0
 	
@@ -138,3 +143,8 @@ func wander_or_attack_if_spotted():
 		else:
 			wander()
 
+func set_anim_run():
+	animation_tree.set("parameters/Blend2/blend_amount", 1)
+
+func set_anim_idle():
+	animation_tree.set("parameters/Blend2/blend_amount", 0)
