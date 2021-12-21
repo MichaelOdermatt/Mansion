@@ -857,7 +857,7 @@ __meta__ = {
 [node name="Enemy" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36148, 2.38157, -23.7656 )
 script = ExtResource( 9 )
-speed = 12
+speed = 11
 
 [node name="CollisionShape" type="CollisionShape" parent="Enemy"]
 transform = Transform( -2.18557e-08, 0.5, -2.18557e-08, 0, -2.18557e-08, -0.5, -0.5, -2.18557e-08, 9.55343e-16, 0, 0, 0 )
