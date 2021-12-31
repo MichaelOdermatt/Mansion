@@ -5,6 +5,7 @@ onready var player = $".."
 onready var player_camera_sound = $"../CameraSound"
 onready var player_ray_cast = $"../Camera/PlayerRayCast"
 onready var player_ray_cast_draw = $"../Camera/Line2D"
+onready var reload_timer = $"../ReloadTimer"
 var is_firing = false
 
 func fire():
@@ -21,3 +22,4 @@ func _on_ShootTimer_timeout():
 	world_environment.remove_screen_effects()
 	player_ray_cast_draw.remove_raycast_line()
 	Globals.unpause_game()
+	reload_timer.start()

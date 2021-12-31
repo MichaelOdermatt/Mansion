@@ -12,6 +12,7 @@ var is_moving : bool = false
 var mid_height : float = (min_height + max_height) /2
 onready var camera = $Camera
 onready var shoot_timer = $"ShootTimer"
+onready var reload_timer = $"ReloadTimer"
 onready var mouse_delta : Vector2 = Vector2()
 
 func _ready():
@@ -24,7 +25,7 @@ func _input(event):
 		mouse_delta = event.relative
 		
 	if Input.is_action_just_pressed("shoot"):
-		if (!shoot_timer.is_firing):
+		if (!shoot_timer.is_firing && reload_timer.is_stopped()):
 			shoot_timer.fire()
 		
 	if_exit_pressed_quit_game()

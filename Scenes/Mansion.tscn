@@ -22,6 +22,8 @@ cell/size = 1.0
 cell/height = 0.75
 
 [sub_resource type="CapsuleShape" id=4]
+radius = 0.677964
+height = 1.58234
 
 [sub_resource type="ArrayMesh" id=5]
 surfaces/0 = {
@@ -799,6 +801,7 @@ script = ExtResource( 7 )
 
 [node name="Line2D" type="Line2D" parent="Player/Camera"]
 pause_mode = 2
+visible = false
 points = PoolVector2Array( 500, 480 )
 width = 2.0
 default_color = Color( 1, 0, 0, 1 )
@@ -806,8 +809,13 @@ script = ExtResource( 8 )
 
 [node name="ShootTimer" type="Timer" parent="Player"]
 pause_mode = 2
+wait_time = 0.4
 one_shot = true
 script = ExtResource( 6 )
+
+[node name="ReloadTimer" type="Timer" parent="Player"]
+wait_time = 3.0
+one_shot = true
 
 [node name="CameraSound" type="AudioStreamPlayer" parent="Player"]
 pause_mode = 2
@@ -859,7 +867,7 @@ script = ExtResource( 9 )
 speed = 11
 
 [node name="CollisionShape" type="CollisionShape" parent="Enemy"]
-transform = Transform( -2.18557e-08, 0.5, -3.27835e-08, 0, -2.18557e-08, -0.75, -0.5, -2.18557e-08, 1.43301e-15, 0, 0.638254, -0.262543 )
+transform = Transform( -2.18557e-08, 0.5, -3.27835e-08, 0, -2.18557e-08, -0.75, -0.5, -2.18557e-08, 1.43301e-15, 0, 0.638254, -0.118841 )
 shape = SubResource( 4 )
 
 [node name="PathToPlayerTimer" type="Timer" parent="Enemy"]

@@ -20,6 +20,7 @@ enum {
 
 onready var nav = $"../Map/Navigation"
 onready var player = $"../Player"
+onready var player_reload_timer = $"../Player/ReloadTimer"
 onready var path_to_player_timer = $"PathToPlayerTimer"
 onready var animation_tree = $"Enemy/AnimationTree"
 onready var player_raycast = $"../Player/Camera/PlayerRayCast"
@@ -58,7 +59,7 @@ func _input(event):
 	if Input.is_action_just_pressed("shoot"):
 		if state == WAIT:
 			wander_or_attack()
-		if player_raycast.collision_object == self:
+		if player_raycast.collision_object == self && player_reload_timer.is_stopped():
 			player_raycast.collision_object = null
 			dead()
 
