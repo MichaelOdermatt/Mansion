@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Custom_env.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Images/progress_bar_progress.png" type="Texture" id=11]
 [ext_resource path="res://Images/progress_bar_under.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/ReloadTimer.gd" type="Script" id=13]
+[ext_resource path="res://Images/crosshair.png" type="Texture" id=14]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -818,7 +819,7 @@ script = ExtResource( 8 )
 
 [node name="ShootTimer" type="Timer" parent="Player"]
 pause_mode = 2
-wait_time = 0.4
+wait_time = 0.8
 one_shot = true
 script = ExtResource( 6 )
 
@@ -836,9 +837,21 @@ margin_left = 170.0
 margin_top = 414.0
 margin_right = 770.0
 margin_bottom = 464.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.5, 0.3 )
 texture_under = ExtResource( 12 )
 texture_progress = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Player"]
+anchor_right = 0.419
+margin_left = 318.0
+margin_top = 238.0
+margin_right = 65.84
+margin_bottom = 254.0
+rect_scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -911,7 +924,7 @@ transform = Transform( -2.18557e-08, 0.5, -3.27835e-08, 0, -2.18557e-08, -0.75, 
 shape = SubResource( 6 )
 
 [node name="PathToPlayerTimer" type="Timer" parent="Enemy"]
-wait_time = 0.5
+wait_time = 0.25
 
 [node name="WanderPos1" type="Position3D" parent="Enemy"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -2 )
