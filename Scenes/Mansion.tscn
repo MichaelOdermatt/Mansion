@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Custom_env.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -10,6 +10,9 @@
 [ext_resource path="res://Scripts/DrawLine2D.gd" type="Script" id=8]
 [ext_resource path="res://Scripts/Enemy.gd" type="Script" id=9]
 [ext_resource path="res://Models/Material.material" type="Material" id=10]
+[ext_resource path="res://Images/progress_bar_progress.png" type="Texture" id=11]
+[ext_resource path="res://Images/progress_bar_under.png" type="Texture" id=12]
+[ext_resource path="res://Scenes/ReloadTimer.gd" type="Script" id=13]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -816,10 +819,23 @@ script = ExtResource( 6 )
 [node name="ReloadTimer" type="Timer" parent="Player"]
 wait_time = 3.0
 one_shot = true
+script = ExtResource( 13 )
 
 [node name="CameraSound" type="AudioStreamPlayer" parent="Player"]
 pause_mode = 2
 stream = ExtResource( 4 )
+
+[node name="TextureProgress" type="TextureProgress" parent="Player"]
+margin_left = 170.0
+margin_top = 414.0
+margin_right = 770.0
+margin_bottom = 464.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_under = ExtResource( 12 )
+texture_progress = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Map" type="Spatial" parent="."]
 
@@ -864,7 +880,7 @@ __meta__ = {
 [node name="Enemy" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36148, 2.38157, -23.7656 )
 script = ExtResource( 9 )
-speed = 11
+speed = 15
 
 [node name="CollisionShape" type="CollisionShape" parent="Enemy"]
 transform = Transform( -2.18557e-08, 0.5, -3.27835e-08, 0, -2.18557e-08, -0.75, -0.5, -2.18557e-08, 1.43301e-15, 0, 0.638254, -0.118841 )

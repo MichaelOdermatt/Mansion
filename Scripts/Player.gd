@@ -8,17 +8,25 @@ export var max_height : float = 3.4
 export var min_view_angle : float = -70
 export var max_view_angle : float = 70
 
+var enemy_collision_distance_treshold = 2.75
 var is_moving : bool = false
+var is_dead : bool = false
 var mid_height : float = (min_height + max_height) /2
 onready var camera = $Camera
 onready var shoot_timer = $"ShootTimer"
 onready var reload_timer = $"ReloadTimer"
+onready var enemy = $"../Enemy"
 onready var mouse_delta : Vector2 = Vector2()
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event):
+	if_exit_pressed_quit_game()
+	
+	if is_dead:
+		return
+	
 	# set mouse delta, mouse delta is used for player and camera rotation
 	var mouse_motion = event as InputEventMouseMotion
 	if mouse_motion:
@@ -27,10 +35,12 @@ func _input(event):
 	if Input.is_action_just_pressed("shoot"):
 		if (!shoot_timer.is_firing && reload_timer.is_stopped()):
 			shoot_timer.fire()
-		
-	if_exit_pressed_quit_game()
 
 func _physics_process(delta):
+	if is_dead:
+		fall_down()
+		return
+	
 	rotate_player(delta)
 	
 	var movement_vector : Vector3
@@ -56,6 +66,11 @@ func _physics_process(delta):
 	
 	#movement_vector.y = float_back_to_mid_height()
 	#clamp_player_height()
+	
+	var distance_to_enemy = enemy.global_transform.origin.distance_to(global_transform.origin)
+	print(distance_to_enemy)
+	if distance_to_enemy <= enemy_collision_distance_treshold:
+		is_dead = true
 	
 	move_and_slide(movement_vector * movement_speed, Vector3(0, 1, 0))
 
@@ -89,3 +104,11 @@ func rotate_player(delta):
 	
 	# reset the mouse delta so the rotation will stop
 	mouse_delta = Vector2()
+
+func fall_down():
+	var current_rotation = Quat(transform.basis)
+	var target_rotation = Quat(Vector3(0,0,1), 1)
+	var new_rotation = current_rotation.slerp(target_rotation, 0.01)
+	transform.basis = Basis(new_rotation)
+	
+	pass
