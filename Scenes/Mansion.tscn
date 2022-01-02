@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Custom_env.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Images/progress_bar_under.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/ReloadTimer.gd" type="Script" id=13]
 [ext_resource path="res://Images/crosshair.png" type="Texture" id=14]
+[ext_resource path="res://Sounds/man_breathing.wav" type="AudioStream" id=15]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -917,7 +918,7 @@ shape = SubResource( 5 )
 [node name="Enemy" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36148, 2.38157, -23.7656 )
 script = ExtResource( 9 )
-speed = 15
+speed = 12
 
 [node name="CollisionShape" type="CollisionShape" parent="Enemy"]
 transform = Transform( -2.18557e-08, 0.5, -3.27835e-08, 0, -2.18557e-08, -0.75, -0.5, -2.18557e-08, 1.43301e-15, 0, 0.638254, -0.118841 )
@@ -1106,6 +1107,11 @@ tree_root = SubResource( 16 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/Blend2/blend_amount = 1.0
+
+[node name="BreathingSound" type="AudioStreamPlayer3D" parent="Enemy"]
+stream = ExtResource( 15 )
+unit_size = 9.0
+autoplay = true
 
 [connection signal="timeout" from="Player/ShootTimer" to="Player/ShootTimer" method="_on_ShootTimer_timeout"]
 [connection signal="timeout" from="Enemy/PathToPlayerTimer" to="Enemy" method="_on_PathToPlayerTimer_timeout"]
